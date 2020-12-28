@@ -1,0 +1,80 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Flights</h1>
+
+
+<% @codes = Airport.all.map {|a| a.code} %>
+<% @dates = Flight.all.map {|f| f.begin_datetime}%>
+<%= puts "cccccoooooooooooooooodddddddeeeeeesssssss" %>
+<%= puts @codes %>
+
+<br><br>
+
+<%= simple_form_for :search, url: root_path, method: "GET" do |f| %>
+  <%= f.input :from, collection: @codes %>
+  <%= f.input :to, collection: @codes %>
+  <%= f.input :number, collection: 1..4 %>
+  <%= f.input :date, collection: @dates %>
+
+<br>
+  <%= f.submit "Search" %>
+<% end %>
+
+
+
+<% @flight_listings = @flights.map{|f| " #{f.id}" "#{f.from_airport.code} #{f.to_airport.code} #{f.begin_datetime} #{f.duration}"} %>
+
+
+<% if false %>
+  <%= simple_form_for @booking, url: new_booking_path, method: "GET" do |f| %>
+
+
+      <%= f.input :flight_id, input_html: { type: 'radio' }, collection: @flight_listings %>
+      <%= f.submit "Search" %>
+  <% end %>
+<% end %>
+
+<br><br>
+<form action = "newnewbooking", method = "GET">
+  <table>
+    <thead>
+      <tr>
+        <th style="width:50px">ID</th>
+        <th style="width:250px">Depart</th>
+        <th style="width:100px">Duration</th>
+        <th style="width:100px">From</th>
+        <th style="width:100px">To</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @flights.each do |flight| %>
+        <tr>
+
+          <td>
+            <div class="radio">
+              <label><input type="radio" name="flight_id" value="<%= flight.id %>" ><%= flight.id %></label>
+            </div>
+          </td>
+
+          <td style="text-align:center"><%= flight.begin_datetime %></td>
+          <td style="text-align:center"><%= flight.duration %> hours</td>
+          <td style="text-align:center"><%= flight.from_airport.code %></td>
+          <td style="text-align:center"><%= flight.to_airport.code %></td>
+        </tr>
+
+        
+      <% end %>
+    <tr><td><input type="submit" value="Book Flight"></td></tr>
+    </tbody>
+  </table>
+  <input type="hidden" name="passenger_number" value="42" >
+</form>
+
+
+
+
+
+
+
+

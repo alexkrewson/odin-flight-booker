@@ -1,0 +1,113 @@
+
+<table>
+    <thead>
+      <tr>
+        <th style="width:50px">ID</th>
+        <th style="width:250px">Depart</th>
+        <th style="width:100px">Duration</th>
+        <th style="width:100px">From</th>
+        <th style="width:100px">To</th>
+      </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+          <td style="text-align:center"><%= @flight.id %></td>
+          <td style="text-align:center"><%= @flight.begin_datetime %></td>
+          <td style="text-align:center"><%= @flight.duration %> hours</td>
+          <td style="text-align:center"><%= @flight.from_airport.code %></td>
+          <td style="text-align:center"><%= @flight.to_airport.code %></td>
+        </tr>
+
+    </tbody>
+  </table>
+
+
+<%= simple_form_for @booking, method: "POST" do |f| %>
+
+      <%= f.input :flight_id, as: "hidden", input_html: { value: @flight.id } %>
+      
+        <%= f.simple_fields_for :passengers do |p| %>
+          <%= p.input :name %>
+        <% end %>
+
+
+
+
+
+
+
+
+<% if false %>
+
+
+
+      <%= f.fields_for @passenger do |passenger_form|%>
+
+        <%= passenger_form.input :name %>
+
+      <% end %>
+<% end %>
+
+
+
+<% if false %>
+<% end %>
+
+      <%= f.submit "Book" %>
+<% end %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<% if false %>
+
+<form action = "bookings", method = "POST">
+  
+<br><br>
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname"><br><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="fname" name="lname"><br><br>
+  <input type="submit" value="Book Flight"><br>
+
+
+  <input type="hidden" name="flight_id" value=<%= @flight.id%>><br>
+
+</form>
+
+
+
+
+<%= simple_form_for(@booking) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.association :flight %>
+    <%= f.association :passenger %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+<% end %>
