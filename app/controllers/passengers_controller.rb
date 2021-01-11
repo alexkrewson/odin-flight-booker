@@ -24,13 +24,18 @@ class PassengersController < ApplicationController
   # POST /passengers
   # POST /passengers.json
   def create
+    puts "creaaaaaaaaaaaaaaaaaaating paaaaaaaaaaaaaaaaassenger"
     @passenger = Passenger.new(passenger_params)
 
     respond_to do |format|
       if @passenger.save
+        puts "passenger saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaviiiiiiiiiiiiing name"
+        puts @passenger.name
         format.html { redirect_to @passenger, notice: 'Passenger was successfully created.' }
         format.json { render :show, status: :created, location: @passenger }
       else
+        puts "passenger not saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaviiiiiiiiiiiiing"
+
         format.html { render :new }
         format.json { render json: @passenger.errors, status: :unprocessable_entity }
       end

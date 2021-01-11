@@ -29,14 +29,26 @@ class BookingsController < ApplicationController
   # POST /bookings
   # POST /bookings.json
   def create
+    puts "creaaaaaaaaaaaaaaaaaaating paaaaaaaaaaaaaaaaassenger before"
 
-    @passenger = Passenger.create(name: booking_params[:passengers][:name])
+    @passenger = Passenger.create(name: booking_params[:passengers][:name], email: booking_params[:passengers][:email])
+    # @passenger = Passenger.create(name: "fakename", email: "fakeemail")
+
+
+    puts "creaaaaaaaaaaaaaaaaaaating paaaaaaaaaaaaaaaaassenger after"
+
     @booking = Booking.new(flight_id: booking_params[:flight_id], passenger_id: @passenger.id)
     @flight = Flight.find(booking_params[:flight_id])
 
-
+    puts "booooooooking naaaaaaaaaaaaaaaaaaaaaaaaaame"
+    puts @passenger.name
+    puts "booooooooking emaaaaaaaaaaaaaaaaaaaaaaaaaaaaaail"
+    puts @passenger.email
     respond_to do |format|
       if @booking.save
+        # BookingMailer.with(booking: @booking).thankyou_email.deliver_now
+        PassengerMailer.with(passenger: @passenger).thankyou_email.deliver_now
+
         format.html { redirect_to @booking, notice: 'Booking was successfully created.' }
         format.json { render :show, status: :created, location: @booking }
       else
@@ -78,7 +90,7 @@ class BookingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def booking_params
-      params.require(:booking).permit(:flight_id, passengers: [:name])
+      params.require(:booking).permit(:flight_id, passengers: [:name, :email])
 
     end
 end
